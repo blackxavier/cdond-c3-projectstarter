@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Back-end build
           command: |
-            cd backendfrontend
+            cd backend
             npm install
             npm run build
       
