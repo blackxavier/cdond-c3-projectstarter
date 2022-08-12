@@ -38,6 +38,7 @@ jobs:
       
       - restore_cache:
           keys: [backend-build]
+
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -66,7 +67,9 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      - test-frontend
-        - build-frontend
-      - test_backend
-        - build-backend
+      - test-frontend:
+          requires:
+            - build-frontend
+      - test_backend:
+          requires:
+            - build-backend
