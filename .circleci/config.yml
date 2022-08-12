@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Back-end build
+          name: front-end build
           command: |
             cd frontend
             npm install
