@@ -107,5 +107,5 @@ workflows:
             - build-backend
       - scan-frontend:
           requires:
-            - build-backend
+            - build-frontend
           
