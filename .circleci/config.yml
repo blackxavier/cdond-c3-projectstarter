@@ -78,7 +78,7 @@ jobs:
             npm install
             npm audit fix  
             
-            npm audit --audit-level=critical
+            
             
             
           
@@ -97,7 +97,7 @@ jobs:
             cd backend
             npm install
             npm audit fix 
-            npm audit --audit-level=critical
+            
             
           
 workflows:
