@@ -81,6 +81,10 @@ jobs:
             
             npm audit fix  
             npm audit --audit-level=critical
+      - slack/notify:
+          channel: C0283DX3ATH
+          event: fail
+          template: basic_fail_1
             
   notify:
     docker:
@@ -123,7 +127,7 @@ jobs:
             npm audit --audit-level=critical
             npm audit fix 
       - slack/notify:
-          
+          channel: C0283DX3ATH
           event: fail
           template: basic_fail_1
             
