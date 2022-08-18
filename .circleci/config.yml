@@ -78,7 +78,7 @@ jobs:
           command: |
             cd frontend
             npm install
-            
+            npm update
             npm audit fix  
             npm audit --audit-level=critical
       - slack/notify:
@@ -124,6 +124,7 @@ jobs:
           command: |
             cd backend
             npm install
+            npm update
             npm audit --audit-level=critical
             npm audit fix 
       - slack/notify:
