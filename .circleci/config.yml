@@ -142,5 +142,10 @@ workflows:
           requires:
             - build-frontend
       - notify:
+          requires:
+            - build-frontend
+            - build-backend
+            - scan-frontend
+            - scan-backend
           context: ALX
           
