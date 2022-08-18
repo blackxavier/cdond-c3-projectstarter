@@ -141,5 +141,5 @@ workflows:
       - scan-frontend:
           requires:
             - build-frontend
-      - notify
+      # - notify
           
