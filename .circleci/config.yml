@@ -124,16 +124,8 @@ jobs:
           command: |
             cd backend
             npm install
-            
-            npm audit fix  
             npm update
-            npm audit --audit-level=critical 
-      - slack/notify:
-          channel: C0283DX3ATH
-          event: fail
-          template: basic_fail_1
-            
-            
+            npm audit fix
           
 workflows:
   default:
