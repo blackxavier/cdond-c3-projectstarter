@@ -124,8 +124,9 @@ jobs:
           command: |
             cd backend
             npm install
-            npm update
+            
             npm audit fix  
+            npm update
             npm audit --audit-level=critical 
       - slack/notify:
           channel: C0283DX3ATH
