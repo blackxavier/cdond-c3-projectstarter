@@ -242,16 +242,17 @@ jobs:
   deploy-frontend:
     docker:
       - image: python:3.7-alpine3.11
-    - attach_workspace:
-          at: /tmp/.circleci/ansible
+    
     steps:
       - checkout
       - run:
           name: SSH or Git CLI client 
           command: |
               apk add --update git openssh-client
-       add_ssh_keys:
+      - add_ssh_keys:
           fingerprints: ["d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4"] 
+      - attach_workspace:
+          at: /tmp/.circleci/ansible
       - restore_cache:
           keys: [frontend-build]
       - run:
