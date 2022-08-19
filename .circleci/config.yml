@@ -204,5 +204,5 @@ workflows:
             - scan-backend
           context: ALX
       - deploy-infrastructure
-      - configure-infrastructure
+      
 
