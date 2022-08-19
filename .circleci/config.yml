@@ -209,7 +209,7 @@ jobs:
               cd .circleci/ansible/  
               cat inventory.txt
               ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i /tmp/.circleci/ansible/inventory.txt configure-server.yml
-      
+      - destroy-environment
 
   
           
