@@ -210,6 +210,7 @@ jobs:
               cat inventory.txt
               ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i /tmp/.circleci/ansible/inventory.txt configure-server.yml
       - destroy-environment
+
   run-migrations:
     docker:
       - image: node:13.8.0-buster
@@ -234,9 +235,9 @@ jobs:
             then
   
                 
-                # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
+                
                 curl https://kvdb.io/Qj2BNL2ecbA7hRArY6refr/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
-            fi
+                fi
 
   
           
