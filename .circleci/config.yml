@@ -214,7 +214,7 @@ jobs:
   run-migrations:
     docker:
       - image: node:13.8.0-buster
-      - user: root
+        user: root
     steps:
       - checkout
       - run:
@@ -236,8 +236,8 @@ jobs:
   
                 
                 
-                curl https://kvdb.io/Qj2BNL2ecbA7hRArY6refr/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
-                fi
+            curl https://kvdb.io/Qj2BNL2ecbA7hRArY6refr/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            fi
 
   
           
