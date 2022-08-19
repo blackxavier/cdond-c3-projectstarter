@@ -297,3 +297,28 @@ workflows:
           requires: [smoke-test]
       - cleanup:
           requires: [cloudfront-update]
+configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11 
+    steps:
+      - checkout
+      - run:
+          name: SSH or Git client
+          command: |
+              apk add --update git openssh-client
+      - add_ssh_keys: 
+          fingerprints: ["d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4"]
+      - attach_workspace:
+          at: /tmp/.circleci/ansible
+
+      - run:
+          name: Install dependencies
+          command: |
+            # Your code here
+            exit 1
+      - run:
+          name: Configure server
+          command: |
+            # Your code here
+            exit 1
+      # Here's where you will add some code to rollback on failure
