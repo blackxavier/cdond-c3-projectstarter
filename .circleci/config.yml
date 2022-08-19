@@ -177,6 +177,40 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11 
+    steps:
+      - checkout
+      - run:
+          name: SSH or Git client
+          command: |
+              apk add --update git openssh-client
+      - add_ssh_keys: 
+          fingerprints: ["d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4"]
+      - attach_workspace:
+          at: /tmp/.circleci/ansible
+
+      - run:
+          name: Install dependencies
+          command: |
+              apk add --no-cache \
+              python3 \
+              py3-pip \
+              && pip3 install --upgrade pip \
+              && pip3 install \
+              awscli \
+              && rm -rf /var/cache/apk/*
+              apk add --update ansible
+      - run:
+          name: Configure server
+          command: |
+              cd .circleci/ansible/  
+              cat inventory.txt
+              ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i /tmp/.circleci/ansible/inventory.txt configure-server.yml
+      
+
   
           
 workflows:
@@ -207,5 +241,6 @@ workflows:
           context: ALX
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
 
