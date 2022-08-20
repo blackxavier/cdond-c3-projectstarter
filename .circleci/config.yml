@@ -220,11 +220,7 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run:
-          name: install aws cli
-          command: |
-            apt -y update
-            apt -y install awscli
+     
       - run:
           name: Run migrations
           command: |
