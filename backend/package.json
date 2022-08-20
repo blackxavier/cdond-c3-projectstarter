@@ -5,6 +5,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
+    "migrate": "node migrations.js",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register -r dotenv/config src/main.ts",
@@ -89,6 +90,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2"
   },
+  
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -115,3 +117,5 @@
     "verbose": false
   }
 }
+
+
