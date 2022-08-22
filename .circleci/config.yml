@@ -196,7 +196,7 @@ jobs:
       - add_ssh_keys: 
           fingerprints: ["d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4"]
       - attach_workspace:
-          at: /tmp/.circleci/ansible
+          at: ~/project/.circleci/ansible
 
       - run:
           name: Install dependencies
@@ -214,7 +214,7 @@ jobs:
           command: |
               cd .circleci/ansible/  
               cat inventory.txt
-              ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i /tmp/.circleci/ansible/inventory.txt configure-server.yml
+              ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
   run-migrations:
