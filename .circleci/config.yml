@@ -214,7 +214,8 @@ jobs:
           command: |
               cd .circleci/ansible/  
               cat inventory.txt
-              ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i inventory.txt configure-server.yml
+              ansible-playbook -i inventory.txt configure-server.yml
+          no_output_timeout: 30m
       - destroy-environment
 
   run-migrations:
