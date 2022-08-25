@@ -214,7 +214,7 @@ jobs:
           command: |
               apk add --update git openssh-client
       - add_ssh_keys: 
-          fingerprints: ['d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4']
+          fingerprints: [d1:f3:59:e4:88:f9:1a:20:9c:36:63:f4:c1:31:b8:e4]
       - attach_workspace:
           at: ~/
 
@@ -225,18 +225,17 @@ jobs:
               python3 \
               py3-pip \
               && pip3 install --upgrade pip \
-              && pip3 install \
-              awscli \
+              && pip3 install awscli \
               && rm -rf /var/cache/apk/*
               apk add --update ansible
       - run:
           name: Configure server
           command: |
-              cd .circleci/ansible/  
+              cd .circleci/ansible/
               cat inventory.txt
-              ANSIBLE_HOST_KEY_CHECKING=0 ansible-playbook -i inventory.txt configure-server.yml
+              ansible-playbook -i inventory.txt configure-server.yml
               
-          no_output_timeout: 10m
+        
       - destroy-environment
      
 

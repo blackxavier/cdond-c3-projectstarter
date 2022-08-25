@@ -1,21 +1,48 @@
 ---
-- name: Create directiory
-  file:
-    path: ~/backend
-    state: directory
+  - name: "Update Packages"
+    become: true
+    apt:
+      update_cache: yes
 
-- name: Extract files into the EC2 instance
-  unarchive:
-    src: artifact.tar.gz
-    dest: ~/backend
+  - name: "Upgrade Packages"
+    become: true
+    apt:
+      upgrade: yes
 
-- name: Start the app
-  become: true
-  shell: |
-    cd backend
-    npm install
-- name: Start pm2
-  become: true
-  shell: |
-    cd backend
-    pm2 start npm -- start
+  - name: "Remove Un-used Dependencies"
+    become: true
+    apt:
+      autoremove: yes
+
+  - name: "Install nodejs and npm"
+    become: true
+    apt:
+      name: [nodejs, npm]
+      state: latest
+      update_cache: yes
+
+  - name: "Install pm2"
+    become: true
+    npm:
+      name: pm2
+      global: yes
+      production: yes
+      state: latest
+
+  - name: "Create Backend Directory"
+    become: true
+    file:
+      path: /home/ubuntu/backend
+      state: directory
+
+  - name: "Extract artifact"
+    become: true
+    unarchive:
+      src: files/artifact.tar.gz
+      dest: /home/ubuntu/backend
+
+  - name: "Start Project"
+    become: true
+    command: pm2 start npm --name "backend" -- start
+    args:
+      chdir: /home/ubuntu/backend
