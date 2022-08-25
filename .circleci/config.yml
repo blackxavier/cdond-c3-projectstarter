@@ -32,9 +32,7 @@ jobs:
             npm run build
       - restore_cache:
           keys: [frontend-build]
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+      
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -57,9 +55,7 @@ jobs:
       
       - restore_cache:
           keys: [backend-build]
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+      
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -77,9 +73,7 @@ jobs:
             cd frontend
             npm install
             npm run test
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+     
             
                     
   test-backend:
@@ -95,9 +89,7 @@ jobs:
             cd backend
             npm install
             npm run test
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+    
 
   scan-frontend:
     docker:
@@ -159,9 +151,7 @@ jobs:
             npm install
             npm update
             npm audit fix
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+   
 
   deploy-infrastructure:
     docker:
@@ -212,9 +202,7 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       
       - destroy-environment
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+     
 
   configure-infrastructure:
     docker:
@@ -249,9 +237,7 @@ jobs:
               ansible-playbook -i inventory.txt configure-server.yml
           no_output_timeout: 30m
       - destroy-environment
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+     
 
   run-migrations:
     docker:
@@ -278,9 +264,7 @@ jobs:
                 
             curl https://kvdb.io/Qj2BNL2ecbA7hRArY6refr/migration_${CIRCLE_WORKFLOW_ID:0:8}  -d '1'
             fi
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+    
   deploy-frontend:
     docker:
       - image: python:3.7-alpine3.11
