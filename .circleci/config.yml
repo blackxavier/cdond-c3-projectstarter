@@ -32,6 +32,12 @@ jobs:
             npm run build
       - restore_cache:
           keys: [frontend-build]
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-build
 
   build-backend:
     docker:
@@ -51,18 +57,29 @@ jobs:
       
       - restore_cache:
           keys: [backend-build]
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-build
 
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [frontend-build]
       - run:
           name: front-end build
           command: |
             cd frontend
             npm install
             npm run test
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
             
                     
   test-backend:
@@ -70,12 +87,17 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Back-end build
           command: |
             cd backend
             npm install
             npm run test
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   scan-frontend:
     docker:
@@ -137,6 +159,10 @@ jobs:
             npm install
             npm update
             npm audit fix
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -155,7 +181,7 @@ jobs:
                   --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:8}"  \
                   --region ${AWS_DEFAULT_REGION} \
                   --tags project=udapeople
-                
+        
                  
              
       - run:
@@ -166,6 +192,7 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:8}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+        
            
               
       - run:
@@ -173,8 +200,9 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:8}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> ~/project/.circleci/ansible/inventory.txt
+              --query 'Reservations[*].Instances[*].PublicDnsName' \
+              --output text | grep ec2 | head -n1 >> ~/project/.circleci/ansible/inventory.txt 
+              
             cat ~/project/.circleci/ansible/inventory.txt
 
            
@@ -182,7 +210,11 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+      
       - destroy-environment
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   configure-infrastructure:
     docker:
@@ -217,6 +249,9 @@ jobs:
               ansible-playbook -i inventory.txt configure-server.yml
           no_output_timeout: 30m
       - destroy-environment
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   run-migrations:
     docker:
@@ -243,6 +278,9 @@ jobs:
                 
             curl https://kvdb.io/Qj2BNL2ecbA7hRArY6refr/migration_${CIRCLE_WORKFLOW_ID:0:8}  -d '1'
             fi
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
   deploy-frontend:
     docker:
       - image: python:3.7-alpine3.11
