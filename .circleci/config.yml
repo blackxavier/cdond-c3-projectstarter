@@ -253,7 +253,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            sudo npm install -g npm@7.24.2
+            sudo npm install -g npm@7.18.0
             npm update
             npm run migrations > migrations_dump.txt
       - run:
