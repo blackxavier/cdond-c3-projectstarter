@@ -246,15 +246,20 @@ jobs:
       
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/
       - restore_cache:
           keys: [backend-build]
-     
+      - run:
+          npm install typescript
+      - run: npm --update install python3 npm
       - run:
           name: Run migrations
           command: |
             cd backend
-            sudo npm install -g npm@8.19.1
+          
             npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       - run:
           name: Send migration status to kvdb.io OR memstash.io
           command: |   
