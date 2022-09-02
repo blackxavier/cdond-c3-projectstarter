@@ -258,7 +258,7 @@ jobs:
           command: |
             cd backend
             sudo npm install -g typescript
-            npm install -g npm@8.19.1
+            sudo npm install -g npm@8.19.1
             npm run migrations > migrations.txt
             cat migrations.txt
       - run:
