@@ -250,8 +250,7 @@ jobs:
           at: ~/
       - restore_cache:
           keys: [backend-build]
-      - run:
-          npm install typescript
+    
       - run: npm --update install python3 npm
       - run:
           name: Run migrations
