@@ -252,11 +252,12 @@ jobs:
           keys: [backend-build]
     
       - run: npm --update install python3 npm
+      
       - run:
           name: Run migrations
           command: |
             cd backend
-          
+            npm install -g typescript
             npm run migrations > migrations.txt
             cat migrations.txt
       - run:
